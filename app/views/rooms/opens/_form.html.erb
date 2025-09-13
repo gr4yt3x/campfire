@@ -1,4 +1,14 @@
 <%= render layout: "rooms/layouts/form", locals: { room: room } do %>
+  
+  <!-- Expiration date -->
+  <div class="field margin-bottom">
+    <label for="room_expired_at">Expire On (optional)</label>
+    <input type="date" name="room[expired_at]" id="room_expired_at"
+           value="<%= room.expired_at&.to_date %>">
+    <small class="hint">Leave blank for default expiration.</small>
+  </div>
+
+  <!-- User filter / selection -->
   <%= user_filter_menu_tag do %>
     <li class="flex align-center gap margin-none">
       <figure class="avatar flex-item-no-shrink" style="--avatar-border-radius: 0; --avatar-size: 4ch;">
@@ -31,4 +41,13 @@
       <%= render partial: "rooms/opens/user", collection: users, locals: { room: room } %>
     </div>
   <% end %>
+
+  <!-- Submit button -->
+  <div class="field margin-top">
+    <button type="submit" class="btn btn-primary">
+      Create Room
+    </button>
+  </div>
+
 <% end %>
+

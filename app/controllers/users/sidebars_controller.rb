@@ -2,7 +2,7 @@ class Users::SidebarsController < ApplicationController
   DIRECT_PLACEHOLDERS = 20
 
   def show
-    all_memberships     = Current.user.memberships.visible.with_ordered_room
+    all_memberships     = Current.user.memberships.visible.joins(:room).merge(Room.active).with_ordered_room
     @direct_memberships = extract_direct_memberships(all_memberships)
     @other_memberships  = all_memberships.without(@direct_memberships)
 

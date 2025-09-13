@@ -2,7 +2,7 @@ class User < ApplicationRecord
   include Avatar, Bot, Mentionable, Role, Transferable
 
   has_many :memberships, dependent: :delete_all
-  has_many :rooms, through: :memberships
+  has_many :rooms, -> { active } , through: :memberships
 
   has_many :reachable_messages, through: :rooms, source: :messages
   has_many :messages, dependent: :destroy, foreign_key: :creator_id
