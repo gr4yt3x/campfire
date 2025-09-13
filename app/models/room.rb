@@ -26,6 +26,9 @@ class Room < ApplicationRecord
   scope :closeds,         -> { where(type: "Rooms::Closed") }
   scope :directs,         -> { where(type: "Rooms::Direct") }
   scope :without_directs, -> { where.not(type: "Rooms::Direct") }
+  
+  scope :active,   -> { where("expired_at IS NULL OR expired_at > ?", Time.current) }
+  scope :expired,  -> { where("expired_at IS NOT NULL AND expired_at <= ?", Time.current) }
 
   scope :ordered, -> { order("LOWER(name)") }
 
@@ -63,6 +66,11 @@ class Room < ApplicationRecord
   def default_involvement
     "mentions"
   end
+
+  def expired?
+    expired_at.present? && expired_at <= Time.current
+  end
+
 
   private
     def unread_memberships(message)
